@@ -1,0 +1,24 @@
+.dialog-container {
+  font-family: var(--primary-font);
+
+  .warning-text {
+    margin-bottom: 0;
+  }
+
+  .dialog-container-text {
+    padding-bottom: 20px;
+  }
+
+  .action-btns {
+    display: flex;
+    justify-content: flex-end;
+
+    .mat-dialog-actions {
+      display: flex;
+      min-height: auto;
+      padding: 0;
+      margin: 0;
+      gap: 10px;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.filter-btn {
+  width: 140px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  border-radius: 4px !important;
+}
+
+.btn-group {
+  gap: 7px;
+}
+
+.bg-lime {
+  border: none;
+  background-color: var(--ubs-primary-lime-green);
+}
+
+.positioing {
+  margin-left: 5px;
+}
+
+input[type='date'] {
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+
+  label {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

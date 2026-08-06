@@ -1,0 +1,143 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1080px;
+$bp-largest: 1440px;
+
+.outer {
+  background-color: var(--primary-white);
+  display: flex;
+}
+
+.shopping-list-block {
+  width: 213px;
+  margin: 0 auto;
+  border-top: 1px solid var(--quaternary-light-grey);
+}
+
+.shopping-list-content {
+  padding-top: 24px;
+  font-family: var(--primary-font);
+  font-style: normal;
+
+  &:last-child {
+    padding-bottom: 24px;
+  }
+}
+
+.header-position {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .btn-see-all {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--tertiary-light-grey);
+    line-height: 16px;
+  }
+}
+
+.header {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary-dark-grey);
+}
+
+h2 > span {
+  color: var(--tertiary-light-grey);
+}
+
+.empty-list {
+  text-align: left;
+  font-size: 12px;
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 15px;
+  white-space: pre-wrap;
+}
+
+.items-count {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  margin-top: -12px;
+  color: var(--tertiary-light-grey);
+}
+
+.item {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.item-striked {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: line-through;
+}
+
+.shopping-list-min {
+  height: 100px;
+}
+
+.shopping-list-max {
+  height: max-content;
+}
+
+.shopping-list {
+  width: 100%;
+  padding: 5px 0 0 0;
+  overflow-y: hidden;
+
+  li {
+    display: flex;
+
+    span {
+      margin-right: 5px;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      overflow-wrap: break-word;
+      text-overflow: ellipsis;
+      width: 80%;
+    }
+  }
+}
+
+.checkbox {
+  float: right;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 1px solid #e1e1e1;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: green !important;
+}
+
+.mat-spinner circle,
+::ng-deep.mat-progress-spinner circle {
+  stroke: rgb(226, 226, 226) !important;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
+  .shopping-list-block {
+    width: 184px;
+  }
+}

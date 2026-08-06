@@ -1,0 +1,284 @@
+$cardHoveredBackground: #e7f7ee;
+$cardHoveredBorder: #eff0f1;
+$cardTextColor: #1d2830;
+
+@mixin set-width-height($width: 100%, $height: 100%) {
+  width: $width;
+  height: $height;
+}
+
+@mixin flex-options($flex-direction: row, $justify-content: stretch, $align-items: stretch) {
+  display: flex;
+  flex-direction: $flex-direction;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
+
+.main {
+  margin-top: 24px;
+  font-family: var(--primary-font), sans-serif;
+  font-style: normal;
+  font-weight: normal;
+
+  hr {
+    margin: 21px 0 48px 0;
+    background: var(--ubs-primary-light-grey);
+  }
+
+  .places-filter {
+    @include flex-options(column, stretch, flex-start);
+
+    .filter {
+      display: flex;
+      margin-top: 26px;
+    }
+
+    .choose-location-input {
+      border: 1px solid #9ca7b0;
+      border-radius: 5px;
+      padding: 10px;
+      height: 36px;
+      width: 100%;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--primary-grey);
+
+      &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+      }
+    }
+  }
+
+  caption {
+    display: none;
+  }
+
+  .places-map {
+    @include flex-options(row);
+
+    margin-bottom: 48px;
+
+    .google-map {
+      height: 540px;
+      width: 100%;
+    }
+  }
+}
+
+.marker {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.close-mark {
+  position: absolute;
+  top: 33px;
+  right: 20px;
+  padding: 0 7px;
+  font-weight: bold;
+  color: var(--primary-green);
+  background-color: var(--pre-secondary-light-grey);
+  border: 1px solid green;
+  cursor: pointer;
+}
+
+.sidebar-container {
+  height: 540px;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+  .sidebar-drawer {
+    @include set-width-height(312px, 540px);
+
+    background: var(--pre-secondary-light-grey);
+  }
+}
+
+.sidebar-content {
+  position: relative;
+
+  @include flex-options(column, center, flex-start);
+
+  padding: 36px;
+
+  .sidebar-photo {
+    width: 100%;
+
+    .content-photo {
+      width: 100%;
+    }
+  }
+
+  .sidebar-address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .btn-bookmark {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .material-icons {
+      color: #13aa57;
+      margin: 18px 0 10px 0;
+    }
+  }
+
+  .content-title {
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--secondary-dark-grey);
+  }
+
+  .content-address {
+    margin: 18px 0 10px 0;
+    height: 20px;
+    font-size: 14px;
+    color: var(--quaternary-grey);
+  }
+
+  .content-description {
+    @include set-width-height(239px, 20px);
+
+    margin-bottom: 20px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: $cardTextColor;
+  }
+
+  .content-website {
+    @include set-width-height(154px, 20px);
+
+    font-size: 14px;
+    color: var(--primary-green);
+    padding-top: 12px;
+  }
+
+  .content-list {
+    margin: 16px 0 0 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+
+    .content-list-event {
+      display: flex;
+
+      .event-icon {
+        @include set-width-height(16px, 16px);
+
+        margin-right: 7px;
+      }
+
+      .event-description {
+        @include set-width-height(220px, 40px);
+
+        font-size: 14px;
+        color: $cardTextColor;
+      }
+    }
+  }
+
+  .content-reviews-title {
+    margin: 0 0 14px 0;
+    height: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: $cardTextColor;
+  }
+
+  .stars-container {
+    display: flex;
+
+    .star {
+      max-width: 20px;
+      max-height: 19px;
+    }
+  }
+
+  .content-reviews-amount {
+    @include set-width-height(67px, 20px);
+
+    margin: 15px 0 0 0;
+    font-size: 14px;
+    color: var(--quintynary-light-grey);
+  }
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .search-elements {
+    @include flex-options(row, stretch, center);
+
+    .search-write,
+    .search-chooser {
+      padding: 8px;
+      background: var(--primary-white);
+      border: 1px solid var(--quintynary-light-grey);
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    .search-write {
+      @include set-width-height(328px, 36px);
+
+      margin: 0 16px;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--primary-grey);
+    }
+
+    .search-icon {
+      @include set-width-height(24px, 24px);
+
+      cursor: pointer;
+    }
+
+    .search-chooser {
+      @include set-width-height(179px, 36px);
+    }
+  }
+}
+
+.card {
+  @include set-width-height(264px, 196px);
+
+  margin-bottom: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: var(--primary-white);
+  border: 1px solid var(--primary-white);
+  filter: drop-shadow(1px 4px 8px rgba(100, 114, 125, 0.18));
+
+  &:hover {
+    background: $cardHoveredBackground;
+    border: 1px solid $cardHoveredBorder;
+    filter: drop-shadow(4px 8px 12px rgba(100, 114, 125, 0.25));
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search {
+    .search-elements {
+      .search-write {
+        width: auto;
+      }
+
+      .search-chooser {
+        width: 90px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .close-mark::after {
+    display: block;
+  }
+}

@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+    <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
+  </div>
+  <div *ngIf="pageOpen">
+    <div class="order-payment-size-container" [ngStyle]="unPaidAmount && { 'margin-bottom': '4px' }">
+      <div>
+        <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
+      </div>
+      <div class="order-payment-sum">
+        <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
+      </div>
+      <div>
+        <button *ngIf="isEmployeeCanEditOrder" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
+          <span class="plus">+</span>{{ 'order-payment.add-payment-btn' | translate }}
+        </button>
+      </div>
+    </div>
+    <p *ngIf="displayUnpaidAmount()" class="need-to-pay unpaid-amount">
+      {{ 'order-payment.underpayment' | translate }} {{ unPaidAmount | localizedCurrency }}
+    </p>
+    <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
+      <table
+        class="table table-borderless"
+        aria-label="Payment transactions"
+        aria-describedby="Table for saving information about payment transactions"
+      >
+        <thead>
+          <tr>
+            <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
+            <th id="paymentId">{{ 'order-payment.payment-id' | translate }}</th>
+            <th id="paymentSum">{{ 'order-payment.sum' | translate }}</th>
+            <th id="paymentComment">{{ 'order-payment.comment-bill' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of paymentsArray; let i = index">
+            <td>{{ payment.settlementdate }}</td>
+            <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
+            <td *ngIf="!payment.paymentId"></td>
+            <td>{{ payment.amount | currency | localizedCurrency }}</td>
+            <td *ngIf="payment.receiptLink">{{ 'user-orders.enroll-bonuses' | translate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="isOverpaymentReturnAvailable()" class="order-overpayment-container">
+      <div>
+        <span class="form__subtitle">{{ 'order-payment.overpayment' | translate }}</span>
+      </div>
+      <div class="order-overpayment-sum">
+        <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
+      </div>
+      <div>
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">
+          {{ 'order-payment.enroll-on-bonus-account' | translate }}
+        </button>
+        <button
+          *ngIf="isEmployeeCanEditOrder"
+          [disabled]="isMoneyReturning"
+          class="btn button-payment-operations btn-return-money"
+          (click)="returnMoney(orderId)"
+        >
+          {{ 'order-payment.return-money' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr />
+</div>

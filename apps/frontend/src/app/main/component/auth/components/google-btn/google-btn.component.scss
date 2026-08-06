@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+}
+
+.google-sign-in {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 36px;
+  width: 100%;
+  background: #fff;
+  border: 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+}
+
+.google-sign {
+  margin-right: 8px;
+  width: 18px;
+}
+
+.google-text-sign-in {
+  font-family: var(--ubs-quaternary-font);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--primary-dark-grey);
+}

@@ -1,0 +1,33 @@
+<div class="main" *ngIf="habit">
+  <div class="image"></div>
+  <div class="description">
+    <div class="first-row">
+      <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
+      <p>{{ daysCounter }} / {{ habit.duration }}<span>I</span></p>
+      <div *ngIf="showPhoto" class="friends-photo">
+        <a href="#"><img class="first-photo" [src]="firstFriend" alt="First friend photo" /></a>
+        <a href="#"><img class="second-photo" [src]="secondFriend" alt="Second friend photo" /></a>
+      </div>
+      <button class="edit {{ habitMark }}" (click)="goToHabitProfile()">
+        <img src="/assets/img/profile/icons/edit-line.svg" alt="edit habit progress" />
+      </button>
+    </div>
+    <div class="second-row">
+      {{ habit.habit.habitTranslation.name }}
+    </div>
+  </div>
+  <div class="third-row" [ngSwitch]="habitMark">
+    <ng-template ngSwitchCase="undone">
+      <button class="{{ habitMark }}" (click)="enroll()" [disabled]="isRequest"></button>
+      <div class="grey">{{ 'user.habit.one-habit.done' | translate }}</div>
+    </ng-template>
+    <ng-template ngSwitchCase="done">
+      <button class="{{ habitMark }}" (click)="unenroll()" [disabled]="isRequest"></button>
+      <div class="green">{{ habit.habitStreak }} {{ getDayName() | translate }}</div>
+    </ng-template>
+    <ng-template ngSwitchDefault="acquired">
+      <div class="{{ habitMark }}"></div>
+      <div class="green">{{ 'user.habit.one-habit.great' | translate }}</div>
+    </ng-template>
+  </div>
+</div>

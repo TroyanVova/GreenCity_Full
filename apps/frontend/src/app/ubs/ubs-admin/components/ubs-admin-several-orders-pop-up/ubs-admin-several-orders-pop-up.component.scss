@@ -1,0 +1,224 @@
+* {
+  font-family: var(--ubs-quaternary-font);
+}
+
+.main {
+  min-width: 670px;
+  background: #fff;
+  border-radius: 2px;
+
+  .title-block {
+    width: 544px;
+    padding: 7px 0 31px 45px;
+
+    h4 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: var(--ubs-primary-grey);
+    }
+  }
+}
+
+.form {
+  flex: 50%;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  padding: 0 45px;
+}
+
+.form_styles {
+  display: flex;
+  flex-direction: column;
+
+  .form_container {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.time_export {
+  display: flex;
+  flex-direction: column;
+
+  .time_container {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: flex-end;
+    height: 50px;
+  }
+
+  .label_time {
+    align-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+@mixin input {
+  height: 36px;
+  left: calc(50% - 170px);
+  top: calc(50% - 28px);
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  color: var(--ubs-tertiary-dark-grey);
+  box-sizing: border-box;
+
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
+.container {
+  font-family: var(--primary-font);
+  line-height: 32px;
+}
+
+.form__headline {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
+
+.title-comment {
+  font-size: 16px;
+}
+
+label {
+  color: var(--ubs-secondary-grey);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+input {
+  width: 166px;
+
+  @include input;
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+  }
+}
+
+.export-date {
+  margin-right: 30px;
+}
+
+.time-from {
+  width: 69px;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  text-align: center;
+}
+
+.time-to {
+  width: 100px;
+  margin-right: 40px;
+  margin-top: 4px;
+  text-align: left;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background: right url(../../../../../assets/img/ubs/clock.png) no-repeat;
+  background-size: 16px;
+  background-position-x: 80%;
+}
+
+select {
+  width: 224px;
+  height: 36px;
+
+  @include input;
+}
+
+.title {
+  margin-left: 13px;
+  font-size: 24px;
+}
+
+.form__label {
+  color: var(--ubs-secondary-grey);
+  font-size: 16px;
+  line-height: 24px;
+  width: max-content;
+}
+
+.form__select {
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
+.form__select:focus {
+  outline: none;
+}
+
+.form__select.ng-touched.ng-invalid {
+  border-color: red;
+}
+
+.controls {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 0 60px;
+  margin: 10px 50px 10px 10px;
+
+  .cancel-button,
+  .save-button {
+    color: var(--ubs-tertiary-dark-grey);
+    width: 127px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 24px;
+    margin-right: 20px;
+    margin-bottom: 35px;
+    border-radius: 5px;
+  }
+
+  .cancel-button {
+    border: 1px solid var(--ubs-tertiary-dark-grey);
+    background-color: transparent;
+  }
+
+  .save-button {
+    border: none;
+    background-color: var(--ubs-button-light-green);
+  }
+
+  .save-button[disabled] {
+    background-color: var(--ubs-quintynary-light-grey);
+    border: var(--ubs-quintynary-light-grey);
+    color: var(--ubs-secondary-light-grey);
+  }
+}
+
+.box {
+  box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}
+
+input:disabled {
+  background: var(--ubs-primary-white);
+}
+
+select.ng-touched.ng-invalid {
+  border-color: red;
+}

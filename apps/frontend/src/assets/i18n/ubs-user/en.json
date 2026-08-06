@@ -1,0 +1,36 @@
+{
+  "ubs-user": {
+    "orders": "Orders",
+    "invoice": "Bonuses",
+    "user_data": "User data",
+    "messages": "Messages",
+    "user": "User"
+  },
+  "ubs-user-notification": {
+    "title": "Your messages",
+    "title-table": {
+      "number": "№ order",
+      "theme-messages": "Theme messages",
+      "time": "Time"
+    }
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "About-us",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Settings",
+    "user-notifications": "Notifications",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "management": "Management"
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "This address has already been added"
+    }
+  }
+}
