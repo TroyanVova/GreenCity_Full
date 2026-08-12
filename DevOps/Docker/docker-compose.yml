@@ -1,0 +1,85 @@
+services:
+  postgres:
+    build:
+      context: ../../
+      dockerfile: DevOps/Docker/postgres/Dockerfile
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-greencity}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-greencity}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backcore:
+    build:
+      context: ../../
+      dockerfile: DevOps/Docker/backcore/Dockerfile
+    container_name: backcore
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-greencity}
+      DATASOURCE_USER: ${POSTGRES_USER:-greencity}
+      DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend
+
+  backuser:
+    build:
+      context: ../../
+      dockerfile: DevOps/Docker/backuser/Dockerfile
+    container_name: backuser
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: 8060
+      SPRING_PROFILES_ACTIVE: dev
+      DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-greencity}
+      DATASOURCE_USER: ${POSTGRES_USER:-greencity}
+      DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports:
+      - "8060:8060"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend
+
+  frontend:
+    build:
+      context: ../../
+      dockerfile: DevOps/Docker/frontend/Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "4200:4200"
+    volumes:
+      - ../../apps/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backcore
+      - backuser
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
