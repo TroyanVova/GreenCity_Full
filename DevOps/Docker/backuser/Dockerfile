@@ -12,8 +12,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Якщо проєкт багатомодульний і jar збирається не в /app/target/, поправ шлях нижче
-COPY --from=builder /core/target/*.jar core.jar
+COPY --from=builder /app/core/target/*.jar core.jar
 
 EXPOSE 8060
 

@@ -10,5 +10,4 @@ COPY apps/frontend/ ./
 
 EXPOSE 4200
 
-# Dev-режим з live reload (код монтується як volume у docker-compose.yml)
 CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--disable-host-check", "--aot=false"]
