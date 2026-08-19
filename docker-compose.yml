@@ -17,6 +17,21 @@ services:
     networks:
       - greencity-net
 
+  redis:
+    image: redis:7-alpine
+    container_name: greencity-redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}", "--save", "", "--appendonly", "no"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - greencity-net
+
   core:
     build:
       context: ./apps/backcore
@@ -24,6 +39,8 @@ services:
     restart: unless-stopped
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       DATASOURCE_URL: ${DATASOURCE_URL}
@@ -34,8 +51,15 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       AZURE_CONNECTION_STRING: ${AZURE_CONNECTION_STRING}
       AZURE_CONTAINER_NAME: ${AZURE_CONTAINER_NAME}
-    ports:
-      - "8080:8080"
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    expose:
+      - "8080"
     networks:
       - greencity-net
 
@@ -47,8 +71,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
       core:
-        condition: service_started
+        condition: service_healthy
     environment:
       DATASOURCE_URL: ${DATASOURCE_URL}
       DATASOURCE_USER: ${DATASOURCE_USER}
@@ -57,7 +83,31 @@ services:
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_ID_MANAGER: ${GOOGLE_CLIENT_ID_MANAGER}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8060/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    expose:
+      - "8060"
+    networks:
+      - greencity-net
+
+  lb:
+    image: nginx:1.25-alpine
+    container_name: greencity-lb
+    restart: unless-stopped
+    depends_on:
+      core:
+        condition: service_healthy
+      user:
+        condition: service_healthy
+    volumes:
+      - ./lb/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
+      - "8080:8080"
       - "8060:8060"
     networks:
       - greencity-net
@@ -68,8 +118,7 @@ services:
     container_name: greencity-frontend
     restart: unless-stopped
     depends_on:
-      - core
-      - user
+      - lb
     ports:
       - "80:80"
     networks:
