@@ -1,0 +1,83 @@
+services:
+  db:
+    image: postgres:15
+    container_name: greencity-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - greencity-net
+
+  core:
+    build:
+      context: ./apps/backcore
+    container_name: greencity-core
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USER: ${DATASOURCE_USER}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      AZURE_CONNECTION_STRING: ${AZURE_CONNECTION_STRING}
+      AZURE_CONTAINER_NAME: ${AZURE_CONTAINER_NAME}
+    ports:
+      - "8080:8080"
+    networks:
+      - greencity-net
+
+  user:
+    build:
+      context: ./apps/backuser
+    container_name: greencity-user
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      core:
+        condition: service_started
+    environment:
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USER: ${DATASOURCE_USER}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_ID_MANAGER: ${GOOGLE_CLIENT_ID_MANAGER}
+    ports:
+      - "8060:8060"
+    networks:
+      - greencity-net
+
+  frontend:
+    build:
+      context: ./apps/frontend
+    container_name: greencity-frontend
+    restart: unless-stopped
+    depends_on:
+      - core
+      - user
+    ports:
+      - "80:80"
+    networks:
+      - greencity-net
+
+volumes:
+  db_data:
+
+networks:
+  greencity-net:
+    driver: bridge
