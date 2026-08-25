@@ -102,6 +102,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/", "/management/", "/management/login").permitAll()
 			.requestMatchers("/actuator/health").permitAll()
+			.requestMatchers("/actuator/health", "/actuator/prometheus").permitAll()
                         .requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger.json",
                                 "/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-resources/**", "/webjars/**", "/swagger-ui/**").permitAll()
