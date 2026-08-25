@@ -146,7 +146,13 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
+		
+		
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		
         <!--Google geocoding Api dependency-->
         <dependency>
             <groupId>com.google.maps</groupId>

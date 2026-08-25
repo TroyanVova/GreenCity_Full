@@ -27,6 +27,7 @@ import static greencity.constant.AppConstant.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Config for security.
@@ -34,6 +35,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
  * @author Nazar Stasyuk && Yurii Koval
  * @version 1.0
  */
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalAuthentication
@@ -49,7 +51,8 @@ public class SecurityConfig {
     private final JwtTool jwtTool;
     private final UserService userService;
     private final AuthenticationConfiguration authenticationConfiguration;
-
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
     /**
      * Constructor.
      */
@@ -78,10 +81,7 @@ public class SecurityConfig {
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
             http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
             CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedOrigins(Arrays.asList(
-                "http://192.168.0.110:4200",
-                 "http://192.168.0.110:4205"
-            ));
+            config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
             config.setAllowedMethods(
             Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
            config.setAllowedHeaders(Collections.singletonList("*"));
@@ -101,6 +101,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/", "/management/", "/management/login").permitAll()
+			.requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger.json",
                                 "/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-resources/**", "/webjars/**", "/swagger-ui/**").permitAll()

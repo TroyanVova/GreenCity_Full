@@ -29,6 +29,7 @@ import static greencity.constant.AppConstant.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Config for security.
@@ -44,7 +45,8 @@ public class SecurityConfig {
     private final UserService userService;
     private static final String USER_LINK = "/user";
     private final AuthenticationConfiguration authenticationConfiguration;
-
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
     /**
      * Constructor.
      */
@@ -74,10 +76,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
           http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
               CorsConfiguration config = new CorsConfiguration();
-             config.setAllowedOrigins(Arrays.asList(
-                 "http://192.168.0.110:4200",
-                "http://192.168.0.110:4205"
-             ));
+            config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
             config.setAllowedMethods(
                 Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
             config.setAllowedHeaders(Collections.singletonList("*"));
@@ -97,6 +96,8 @@ public class SecurityConfig {
                                 SC_FORBIDDEN, "You don't have authorities.")))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/static/css/**", "/static/img/**").permitAll()
+			.requestMatchers("/actuator/health").permitAll()
+			.requestMatchers("/actuator/health", "/actuator/prometheus").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/v2/api-docs/**",
