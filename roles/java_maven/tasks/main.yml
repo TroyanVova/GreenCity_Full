@@ -1,0 +1,54 @@
+---
+- name: Встановити OpenJDK 21
+  ansible.builtin.apt:
+    name: "{{ java_version_pkg }}"
+    state: present
+    update_cache: true
+
+- name: Перевірити, чи Maven {{ maven_version }} вже встановлено
+  ansible.builtin.stat:
+    path: "/opt/maven-{{ maven_version }}/bin/mvn"
+  register: maven_bin
+
+- name: Завантажити Maven {{ maven_version }}
+  ansible.builtin.get_url:
+    url: "https://archive.apache.org/dist/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz"
+    dest: "/tmp/apache-maven-{{ maven_version }}-bin.tar.gz"
+    mode: "0644"
+    timeout: 120
+  when: not maven_bin.stat.exists
+
+- name: Розпакувати Maven у /opt
+  ansible.builtin.unarchive:
+    src: "/tmp/apache-maven-{{ maven_version }}-bin.tar.gz"
+    dest: /opt
+    remote_src: true
+  when: not maven_bin.stat.exists
+
+- name: Перейменувати розпаковану директорію Maven
+  ansible.builtin.command: "mv /opt/apache-maven-{{ maven_version }} /opt/maven-{{ maven_version }}"
+  args:
+    creates: "/opt/maven-{{ maven_version }}"
+  when: not maven_bin.stat.exists
+
+- name: Симлінк /opt/maven -> поточна версія
+  ansible.builtin.file:
+    src: "/opt/maven-{{ maven_version }}"
+    dest: /opt/maven
+    state: link
+    force: true
+
+- name: Додати Maven у PATH для всіх користувачів
+  ansible.builtin.copy:
+    dest: /etc/profile.d/maven.sh
+    mode: "0644"
+    content: |
+      export M2_HOME=/opt/maven
+      export PATH=$PATH:/opt/maven/bin
+
+- name: Симлінк mvn у /usr/local/bin (для non-login shell / systemd)
+  ansible.builtin.file:
+    src: /opt/maven/bin/mvn
+    dest: /usr/local/bin/mvn
+    state: link
+    force: true

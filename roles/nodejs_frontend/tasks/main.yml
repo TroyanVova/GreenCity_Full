@@ -1,0 +1,46 @@
+---
+- name: Перевірити, чи Node.js {{ node_version }} вже встановлено
+  ansible.builtin.stat:
+    path: "/opt/node-v{{ node_version }}-linux-x64/bin/node"
+  register: node_bin
+
+- name: Завантажити Node.js {{ node_version }} (бінарний архів)
+  ansible.builtin.get_url:
+    url: "https://nodejs.org/dist/v{{ node_version }}/node-v{{ node_version }}-linux-x64.tar.xz"
+    dest: "/tmp/node-v{{ node_version }}-linux-x64.tar.xz"
+    mode: "0644"
+    timeout: 120
+  when: not node_bin.stat.exists
+
+- name: Розпакувати Node.js у /opt
+  ansible.builtin.unarchive:
+    src: "/tmp/node-v{{ node_version }}-linux-x64.tar.xz"
+    dest: /opt
+    remote_src: true
+  when: not node_bin.stat.exists
+
+- name: Симлінк node/npm/npx у /usr/local/bin
+  ansible.builtin.file:
+    src: "/opt/node-v{{ node_version }}-linux-x64/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+    force: true
+  loop:
+    - node
+    - npm
+    - npx
+
+- name: Встановити ліміт пам'яті Node.js за замовчуванням (2GB)
+  ansible.builtin.copy:
+    dest: /etc/profile.d/node-options.sh
+    mode: "0644"
+    content: |
+      export NODE_OPTIONS=--max-old-space-size=2048
+
+- name: Встановити Angular CLI {{ angular_cli_version }} глобально
+  ansible.builtin.command: "/opt/node-v{{ node_version }}-linux-x64/bin/npm install -g @angular/cli@{{ angular_cli_version }}"
+  args:
+    creates: "/opt/node-v{{ node_version }}-linux-x64/bin/ng"
+  environment:
+    PATH: "/opt/node-v{{ node_version }}-linux-x64/bin:/usr/bin:/bin"
+    NODE_OPTIONS: "--max-old-space-size=2048"

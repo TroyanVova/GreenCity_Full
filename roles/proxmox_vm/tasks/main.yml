@@ -1,0 +1,78 @@
+---
+
+- name: "{{ vm.name }}: клонувати з темплейту {{ proxmox_template_vmid }} (пропускається, якщо VMID вже існує)"
+  community.general.proxmox_kvm:
+    api_host: "{{ proxmox_api_host }}"
+    api_port: "{{ proxmox_api_port }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ vault_proxmox_api_token_secret }}"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ proxmox_template_vmid }}"
+    newid: "{{ vm.vmid }}"
+    name: "{{ vm.name }}"
+    clone: "{{ vm.name }}"
+    full: "{{ proxmox_clone_full }}"
+    storage: "{{ proxmox_storage }}"
+    timeout: 300
+  register: clone_result
+  failed_when:
+    - clone_result is failed
+    - "'already exists' not in (clone_result.msg | default(''))"
+    - "'already exists' not in (clone_result.error | default(''))"
+
+- name: "{{ vm.name }}: налаштувати CPU/RAM/cloud-init (статична IP {{ vm.ip }})"
+  community.general.proxmox_kvm:
+    api_host: "{{ proxmox_api_host }}"
+    api_port: "{{ proxmox_api_port }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ vault_proxmox_api_token_secret }}"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ vm.vmid }}"
+    name: "{{ vm.name }}"
+    cores: "{{ vm.cores }}"
+    memory: "{{ vm.memory }}"
+    ciuser: "{{ proxmox_ciuser }}"
+    sshkeys: "{{ deploy_ssh_pub_key }}"
+    ipconfig:
+      ipconfig0: "ip={{ vm.ip }}/{{ network_netmask_cidr }},gw={{ network_gateway }}"
+    nameservers: "{{ network_gateway }}"
+    searchdomains: "local"
+    update: true
+
+- name: "{{ vm.name }}: розширити диск до {{ vm.disk_size }}"
+  community.general.proxmox_disk:
+    api_host: "{{ proxmox_api_host }}"
+    api_port: "{{ proxmox_api_port }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ vault_proxmox_api_token_secret }}"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ vm.vmid }}"
+    disk: scsi0
+    size: "{{ vm.disk_size }}"
+    state: resized
+  failed_when: false 
+
+- name: "{{ vm.name }}: запустити VM"
+  community.general.proxmox_kvm:
+    api_host: "{{ proxmox_api_host }}"
+    api_port: "{{ proxmox_api_port }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ vault_proxmox_api_token_secret }}"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ vm.vmid }}"
+    state: started
+
+- name: "{{ vm.name }}: зачекати на SSH ({{ vm.ip }}:22)"
+  ansible.builtin.wait_for:
+    host: "{{ vm.ip }}"
+    port: 22
+    delay: 15
+    timeout: "{{ proxmox_wait_for_ssh_timeout }}"

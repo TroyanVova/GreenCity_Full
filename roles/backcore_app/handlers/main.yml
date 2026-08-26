@@ -1,0 +1,6 @@
+---
+- name: restart backcore
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: greencity-backcore
+    state: restarted

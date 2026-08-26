@@ -1,0 +1,64 @@
+---
+- name: npm install --save-dev @angular-devkit/build-angular
+  ansible.builtin.command: npm install --save-dev @angular-devkit/build-angular
+  args:
+    chdir: "{{ repo_dest }}/{{ app_subpath }}"
+  become: true
+  become_user: "{{ ansible_user }}"
+  environment:
+    PATH: "/opt/node-v{{ node_version }}-linux-x64/bin:/usr/local/bin:/usr/bin:/bin"
+    NODE_OPTIONS: "--max-old-space-size=2048"
+  changed_when: true
+
+- name: npm install (залежності проєкту)
+  ansible.builtin.command: npm install
+  args:
+    chdir: "{{ repo_dest }}/{{ app_subpath }}"
+  become: true
+  become_user: "{{ ansible_user }}"
+  environment:
+    PATH: "/opt/node-v{{ node_version }}-linux-x64/bin:/usr/local/bin:/usr/bin:/bin"
+    NODE_OPTIONS: "--max-old-space-size=2048"
+  changed_when: true
+
+- name: Відновити оригінальний environment.ts з git (скинути попередні локальні зміни)
+  ansible.builtin.command: git checkout -- src/environments/environment.ts
+  args:
+    chdir: "{{ repo_dest }}/{{ app_subpath }}"
+  become: true
+  become_user: "{{ ansible_user }}"
+  changed_when: false
+
+- name: Підставити реальні IP/порти замість localhost в environment.ts
+  ansible.builtin.replace:
+    path: "{{ repo_dest }}/{{ app_subpath }}/src/environments/environment.ts"
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - regexp: "backendLink: 'http://localhost:8080/',"
+      replace: "backendLink: 'http://{{ backcore_ip }}:{{ backcore_port }}/',"
+    - regexp: "backendUserLink: 'http://localhost:8060/',"
+      replace: "backendUserLink: 'http://{{ backuser_ip }}:{{ backuser_port }}/',"
+    - regexp: "socket: 'http://localhost:8080/socket',"
+      replace: "socket: 'http://{{ backcore_ip }}:{{ backcore_port }}/socket',"
+    - regexp: "frontendLink: 'http://localhost:4200/',"
+      replace: "frontendLink: 'http://{{ frontend_ip }}:{{ frontend_port }}/',"
+  loop_control:
+    label: "{{ item.regexp }}"
+  notify: restart frontend
+
+- name: Розгорнути systemd unit greencity-frontend
+  ansible.builtin.template:
+    src: greencity-frontend.service.j2
+    dest: /etc/systemd/system/greencity-frontend.service
+    mode: "0644"
+  notify: restart frontend
+
+- name: Застосувати systemd unit одразу
+  ansible.builtin.meta: flush_handlers
+
+- name: Увімкнути і запустити greencity-frontend
+  ansible.builtin.systemd:
+    name: greencity-frontend
+    state: started
+    enabled: true

@@ -1,0 +1,5 @@
+---
+app_subpath: "{{ backore_subpath }}"
+service_name: "greencity-backcore"
+jar_relative_path: "core/target/core.jar"
+app_port: "{{ backcore_port }}"

@@ -1,0 +1,115 @@
+---
+
+# root 
+project_root: "{{ inventory_dir }}/.."
+
+# SSH / Conection Ansible to VM
+ansible_user: deploy
+ansible_ssh_private_key_file: "{{ project_root }}/files/ssh_keys/deploy_key"
+ansible_python_interpreter: /usr/bin/python3
+ansible_ssh_common_args: "-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null"
+
+deploy_ssh_pub_key: "{{ lookup('file', project_root + '/files/ssh_keys/deploy_key.pub') }}"
+
+# Network
+network_gateway: "192.168.0.1"
+network_netmask_cidr: 24
+
+frontend_ip: "192.168.0.110"
+backcore_ip: "192.168.0.111"
+backuser_ip: "192.168.0.112"
+postgres_ip: "192.168.0.113"
+
+backcore_port: 8080
+backuser_port: 8060
+frontend_port: 4200
+
+# PostgreSQL  
+postgres_db: "greencity"
+postgres_user: "greencity"
+postgres_password: "{{ vault_postgres_password }}"
+
+timezone: "Europe/Kyiv"
+
+# Proxmox API (для playbooks/provision_vms.yml)
+proxmox_api_host: "192.168.0.100"
+proxmox_api_port: 8006
+proxmox_node: "pve"
+proxmox_api_user: "VMAdmin@pve"
+proxmox_api_token_id: "ansible"
+# Secret token -> inventory/group_vars/all/vault.yml (vault_proxmox_api_token_secret)
+proxmox_api_validate_certs: false
+
+proxmox_template_vmid: 9001
+proxmox_storage: "local-lvm"
+proxmox_bridge: "vmbr0"
+proxmox_clone_full: true
+
+# Description VM
+proxmox_vms:
+  - name: vm-frontend
+    vmid: 110
+    ip: "{{ frontend_ip }}"
+    cores: 2
+    memory: 2048
+    disk_size: "20G"
+  - name: vm-backore
+    vmid: 111
+    ip: "{{ backcore_ip }}"
+    cores: 2
+    memory: 2048
+    disk_size: "20G"
+  - name: vm-backuser
+    vmid: 112
+    ip: "{{ backuser_ip }}"
+    cores: 2
+    memory: 2048
+    disk_size: "20G"
+  - name: vm-postgres
+    vmid: 113
+    ip: "{{ postgres_ip }}"
+    cores: 2
+    memory: 2048
+    disk_size: "20G"
+
+# GitHub (GreenCity_Full)
+github_repo_url: "git@github.com:TroyanVova/GreenCity_Full.git"
+github_repo_branch: "main"
+github_deploy_key_path: "{{ project_root }}/files/ssh_keys/github_deploy_key"
+repo_dest: /opt/greencity
+
+# Paths in the repo
+backore_subpath: "apps/backcore"
+backuser_subpath: "apps/backuser"
+frontend_subpath: "apps/frontend"
+db_subpath: "apps/backcore/db"
+
+# Java / Maven
+java_version_pkg: "openjdk-21-jdk"
+maven_version: "3.9.7"
+
+# Node.js / Angular
+node_version: "14.21.3"
+angular_cli_version: "9.1.15"
+
+# Secret backend .env (for backcore і backuser)
+# !!!!!при заповнені перенести у vault.yml!!!!!
+app_secrets:
+  EMAIL_ADDRESS: ""
+  EMAIL_PASSWORD: ""
+  GOOGLE_CLIENT_ID: ""
+  GOOGLE_API_KEY: ""
+  GOOGLE_CLIENT_ID_MANAGER: ""
+  CLOUD_NAME: ""
+  API_KEY: ""
+  API_SECRET: ""
+  MAX_FILE_SIZE: "2MB"
+  MAX_REQUEST_SIZE: "2MB"
+  BUCKET_NAME: ""
+  STATIC_URL: ""
+  GOOGLE_APPLICATION_CREDENTIALS: ""
+  DEFAULT_PROFILE_PICTURE: ""
+  AZURE_CONNECTION_STRING: ""
+  AZURE_CONTAINER_NAME: ""
+  CHAT_LINK: ""
+  PROFILE: ""

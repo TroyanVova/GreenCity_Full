@@ -1,0 +1,73 @@
+---
+- name: Встановити PostgreSQL {{ postgres_version }}
+  ansible.builtin.apt:
+    name:
+      - "postgresql-{{ postgres_version }}"
+      - "postgresql-contrib-{{ postgres_version }}"
+      - python3-psycopg2
+    state: present
+    update_cache: true
+
+- name: Переконатись, що PostgreSQL запущений
+  ansible.builtin.systemd:
+    name: "postgresql@{{ postgres_version }}-main"
+    state: started
+    enabled: true
+
+- name: listen_addresses = '{{ postgres_listen_addresses }}' (postgresql.conf)
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/postgresql.conf"
+    regexp: "^#?\\s*listen_addresses\\s*="
+    line: "listen_addresses = '{{ postgres_listen_addresses }}'"
+    backup: true
+  notify: restart postgresql
+
+- name: Дозволити віддалені підключення backore/backuser до БД greencity (pg_hba.conf)
+  ansible.builtin.blockinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - greencity remote access"
+    block: |
+      {% for host in postgres_allowed_hosts %}
+      host    {{ postgres_db }}    {{ postgres_user }}    {{ host }}/32    md5
+      {% endfor %}
+    backup: true
+  notify: restart postgresql
+
+- name: Застосувати зміни конфігурації (якщо були)
+  ansible.builtin.meta: flush_handlers
+
+- name: Створити роль greencity в PostgreSQL
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ postgres_user }}"
+    password: "{{ postgres_password }}"
+    state: present
+    encrypted: true
+
+- name: Створити базу даних greencity
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ postgres_db }}"
+    owner: "{{ postgres_user }}"
+    state: present
+
+- name: Перевірити наявність data.sql в репозиторії
+  ansible.builtin.stat:
+    path: "{{ repo_dest }}/{{ db_subpath }}/data.sql"
+  register: data_sql_stat
+
+- name: "Помилка, якщо data.sql відсутній за шляхом {{ db_subpath }} - перевірте db_subpath у group_vars/all/vars.yml"
+  ansible.builtin.fail:
+    msg: "Не знайдено {{ repo_dest }}/{{ db_subpath }}/data.sql - перевірте db_subpath"
+  when: not data_sql_stat.stat.exists
+
+- name: Застосувати data.sql (створення схеми БД)
+  ansible.builtin.command: >
+    psql -v ON_ERROR_STOP=1 -U postgres -d {{ postgres_db }}
+    -f {{ repo_dest }}/{{ db_subpath }}/data.sql
+  become: true
+  become_user: postgres
+  register: data_sql
+  changed_when: true

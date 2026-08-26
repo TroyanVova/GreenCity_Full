@@ -1,0 +1,5 @@
+---
+app_subpath: "{{ backuser_subpath }}"
+service_name: "greencity-backuser"
+jar_relative_path: "core/target/core.jar"
+app_port: "{{ backuser_port }}"

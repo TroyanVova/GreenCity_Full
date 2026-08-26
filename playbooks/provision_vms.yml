@@ -1,0 +1,14 @@
+---
+- name: Клонувати 4 VM з темплейту Proxmox {{ proxmox_template_vmid }}
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Клонувати та налаштувати кожну VM
+      ansible.builtin.include_role:
+        name: proxmox_vm
+      loop: "{{ proxmox_vms }}"
+      loop_control:
+        loop_var: vm
+        label: "{{ vm.name }} ({{ vm.ip }})"

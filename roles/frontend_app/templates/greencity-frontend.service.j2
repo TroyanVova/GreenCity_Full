@@ -1,0 +1,16 @@
+[Unit]
+Description=GreenCity Frontend (ng serve)
+After=network.target
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+WorkingDirectory={{ repo_dest }}/{{ app_subpath }}
+Environment=NODE_OPTIONS=--max-old-space-size=2048
+Environment=PATH=/opt/node-v{{ node_version }}-linux-x64/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/node-v{{ node_version }}-linux-x64/bin/ng serve --aot=false --host 0.0.0.0 --disableHostCheck
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

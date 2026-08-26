@@ -1,0 +1,3 @@
+---
+app_subpath: "{{ frontend_subpath }}"
+service_name: "greencity-frontend"

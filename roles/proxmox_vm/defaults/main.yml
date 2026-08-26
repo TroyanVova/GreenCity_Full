@@ -1,0 +1,3 @@
+---
+proxmox_ciuser: deploy
+proxmox_wait_for_ssh_timeout: 300

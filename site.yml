@@ -1,0 +1,39 @@
+- name: Create VM
+  import_playbook: playbooks/provision_vms.yml  
+
+- name: Базове налаштування всіх VM
+  hosts: frontend:backcore:backuser:postgres
+  become: true
+  roles:
+    - common
+
+- name: Deploy PostgreSQL
+  hosts: postgres
+  become: true
+  roles:
+    - { role: github_deploy, project_name: postgres }
+    - postgres
+
+- name: Deploy backcore
+  hosts: backcore
+  become: true
+  roles:
+    - { role: github_deploy, project_name: backcore }
+    - java_maven
+    - backcore_app
+
+- name: Deploy backuser
+  hosts: backuser
+  become: true
+  roles:
+    - { role: github_deploy, project_name: backuser }
+    - java_maven
+    - backuser_app
+
+- name: Deploy frontend
+  hosts: frontend
+  become: true
+  roles:
+    - { role: github_deploy, project_name: frontend }
+    - nodejs_frontend
+    - frontend_app

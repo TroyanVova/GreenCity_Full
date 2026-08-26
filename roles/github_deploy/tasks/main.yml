@@ -1,0 +1,63 @@
+---
+
+- name: "[{{ project_name }}] Створити ~/.ssh для {{ ansible_user }}"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0700"
+
+- name: "[{{ project_name }}] Скопіювати GitHub deploy key"
+  ansible.builtin.copy:
+    src: "{{ github_deploy_key_path }}"
+    dest: "/home/{{ ansible_user }}/.ssh/github_deploy_key"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+
+- name: "[{{ project_name }}] Отримати ключ хосту github.com"
+  ansible.builtin.command: ssh-keyscan -t ed25519 github.com
+  register: github_keyscan
+  changed_when: false
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: "[{{ project_name }}] Додати github.com у known_hosts"
+  ansible.builtin.known_hosts:
+    name: github.com
+    key: "{{ github_keyscan.stdout }}"
+    path: "/home/{{ ansible_user }}/.ssh/known_hosts"
+    state: present
+
+- name: "[{{ project_name }}] Виправити власника known_hosts"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh/known_hosts"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+
+- name: "[{{ project_name }}] Налаштувати SSH config для github.com"
+  ansible.builtin.copy:
+    dest: "/home/{{ ansible_user }}/.ssh/config"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+    content: |
+      Host github.com
+        User git
+        IdentityFile /home/{{ ansible_user }}/.ssh/github_deploy_key
+        IdentitiesOnly yes
+
+- name: "[{{ project_name }}] Клонувати/оновити репозиторій GreenCity_Full"
+  ansible.builtin.git:
+    repo: "{{ github_repo_url }}"
+    dest: "{{ repo_dest }}"
+    version: "{{ github_repo_branch }}"
+    accept_hostkey: true
+    force: false
+  become: true
+  become_user: "{{ ansible_user }}"
+  environment:
+    GIT_SSH_COMMAND: "ssh -i /home/{{ ansible_user }}/.ssh/github_deploy_key -o IdentitiesOnly=yes"

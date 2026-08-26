@@ -1,0 +1,15 @@
+[Unit]
+Description=GreenCity Backuser (core.jar)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+WorkingDirectory={{ repo_dest }}/{{ app_subpath }}
+EnvironmentFile={{ repo_dest }}/{{ app_subpath }}/.env
+ExecStart=/usr/bin/java -jar {{ repo_dest }}/{{ app_subpath }}/{{ jar_relative_path }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

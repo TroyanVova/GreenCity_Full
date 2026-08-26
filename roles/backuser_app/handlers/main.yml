@@ -1,0 +1,6 @@
+---
+- name: restart backuser
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: greencity-backuser
+    state: restarted
