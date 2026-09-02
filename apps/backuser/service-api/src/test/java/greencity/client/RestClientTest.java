@@ -52,7 +52,7 @@ class RestClientTest {
         when(restTemplate.exchange(greenCityServerAddress
             + RestTemplateLinks.CUSTOM_SHOPPING_LIST_ITEMS + userId + "/" + habitId, HttpMethod.GET, entity,
             CustomShoppingListItemResponseDto[].class))
-                .thenReturn(ResponseEntity.ok(customShoppingListItemResponseDtos));
+            .thenReturn(ResponseEntity.ok(customShoppingListItemResponseDtos));
 
         assertEquals(Arrays.asList(customShoppingListItemResponseDtos),
             restClient.getAllAvailableCustomShoppingListItems(userId, habitId));
@@ -97,7 +97,7 @@ class RestClientTest {
         when(httpServletRequest.getHeader(AUTHORIZATION)).thenReturn(accessToken);
         when(restTemplate.exchange(greenCityServerAddress
             + RestTemplateLinks.ECONEWS_COUNT + RestTemplateLinks.USER_ID + userId, HttpMethod.GET, entity, Long.class))
-                .thenReturn(ResponseEntity.ok(publishedNews));
+            .thenReturn(ResponseEntity.ok(publishedNews));
         assertEquals(publishedNews, restClient.findAmountOfPublishedNews(userId));
     }
 

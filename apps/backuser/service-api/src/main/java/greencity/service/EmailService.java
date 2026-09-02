@@ -113,7 +113,7 @@ public interface EmailService {
 
     /**
      * Method for send violation to user.
-     * 
+     *
      * @param dto {@link UserViolationMailDto}-includes all information about
      *            Violation.
      * @author Zakhar Veremchuk.
