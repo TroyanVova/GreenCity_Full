@@ -25,12 +25,12 @@ pipeline {
 		stage('Code Quality (SonarCloud)') {
 			steps {
 				withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-					dir('apps/backcore/service') {
+					dir('apps/backcore') {
 						sh 'mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ' +
 						   '-Dsonar.organization=troyanvova -Dsonar.projectKey=greencity-backcore ' +
 						   '-Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN'
 					}
-					dir('apps/backuser/service') {
+					dir('apps/backuser') {
 						sh 'mvn -B test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ' +
 						   '-Dsonar.organization=troyanvova -Dsonar.projectKey=greencity-backcore ' +
 						   '-Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN'
