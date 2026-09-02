@@ -11,7 +11,7 @@ pipeline {
         GATEWAY     = '192.168.0.1'
         NETMASK     = '24'
 
-        REGISTRY      = '192.168.0.123:5000'
+        REGISTRY      = '192.168.0.122:5000'
         MONITORING_IP = '192.168.0.122'
 
         DEPLOY_KEY  = '/home/jenkins-agent/.ssh/deploy_key'
@@ -200,6 +200,14 @@ EOF
 
     post {
         success { echo "Staging update: http://${STAGING_IP}/ (commit ${env.GIT_COMMIT})" }
-        failure { echo "Fail" }
+		failure {
+			withCredentials([string(credentialsId: 'discord-cicd-webhook', variable: 'DISCORD_WEBHOOK_URL')]) {
+			  sh '''
+				curl -H "Content-Type: application/json" -X POST \
+				  -d "{\\"content\\": \\"${JOB_NAME} #${BUILD_NUMBER} failed: ${BUILD_URL}\\"}" \
+				  "$DISCORD_WEBHOOK_URL"
+			  '''
+			}
+		}
     }
 }
