@@ -65,7 +65,7 @@ pipeline {
                     pkill -f "6443:127.0.0.1:6443" || true
                     ssh -i ${SSH_KEY} ${SSH_OPTS} -f -N -L 6443:127.0.0.1:6443 ec2-user@${params.SERVER_IP}
                     sleep 3
-                    kubectl --kubeconfig=${KUBECONFIG} get nodes
+                    kubectl --kubeconfig=${KUBECONFIG} -n ${NAMESPACE} get pods
                 """
             }
         }
