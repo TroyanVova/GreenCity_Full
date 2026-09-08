@@ -57,6 +57,12 @@ spec:
               value: "unused"
             - name: GOOGLE_CLIENT_ID_MANAGER
               value: "unused"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/user"
+            - name: ADDRESS
+              value: "http://core:8080/core"
+            - name: GREENCITY_SERVER_ADDRESS
+              value: "http://core:8080/core"
           resources:
             requests:
               cpu: 250m

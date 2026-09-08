@@ -57,6 +57,8 @@ spec:
               value: "unused"
             - name: GOOGLE_CLIENT_ID_MANAGER
               value: "unused"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/core"
           resources:
             requests:
               cpu: 250m
