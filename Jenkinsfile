@@ -97,7 +97,6 @@ pipeline {
             steps {
                 sh """
                     set -eux
-                    kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/namespace.yaml
                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/redis.yaml
                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/backcore.yaml
                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/backuser.yaml
