@@ -14,9 +14,9 @@ pipeline {
         AWS_REGION      = 'us-east-1'
         PROJECT         = 'greencity'
         SSH_OPTS        = '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-        SSH_KEY         = '/home/jenkins/.ssh/greencity-k3s.pem'
+        SSH_KEY         = '/home/jenkins-agent/.ssh/greencity-k3s'
         AWS_PROFILE     = 'greencity-cloud'
-        KUBECONFIG      = '/home/jenkins/.kube/greencity-cloud'
+        KUBECONFIG      = '/home/jenkins-agent/.kube/greencity-cloud'
         NAMESPACE       = 'greencity'
     }
 
