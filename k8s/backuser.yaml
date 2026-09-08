@@ -30,6 +30,21 @@ spec:
               value: "redis.greencity.svc.cluster.local"
             - name: SPRING_REDIS_PORT
               value: "6379"
+            - name: DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: greencity-secrets
+                  key: SPRING_DATASOURCE_URL
+            - name: DATASOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: greencity-secrets
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: greencity-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
           resources:
             requests:
               cpu: 250m
