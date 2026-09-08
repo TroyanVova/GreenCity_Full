@@ -49,6 +49,14 @@ spec:
               value: "unused"
             - name: AZURE_CONTAINER_NAME
               value: "unused"
+            - name: EMAIL_ADDRESS
+              value: "unused@example.com"
+            - name: EMAIL_PASSWORD
+              value: "unused"
+            - name: GOOGLE_CLIENT_ID
+              value: "unused"
+            - name: GOOGLE_CLIENT_ID_MANAGER
+              value: "unused"
           resources:
             requests:
               cpu: 250m
