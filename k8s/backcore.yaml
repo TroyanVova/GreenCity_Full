@@ -45,6 +45,10 @@ spec:
                 secretKeyRef:
                   name: greencity-secrets
                   key: SPRING_DATASOURCE_PASSWORD
+            - name: AZURE_CONNECTION_STRING
+              value: "unused"
+            - name: AZURE_CONTAINER_NAME
+              value: "unused"
           resources:
             requests:
               cpu: 250m
@@ -66,7 +70,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080        
+              port: 8080
             periodSeconds: 20
 ---
 apiVersion: v1
