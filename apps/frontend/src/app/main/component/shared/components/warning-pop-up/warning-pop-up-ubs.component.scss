@@ -1,0 +1,71 @@
+::ng-deep .custom-ubs-style {
+  .main-container {
+    max-width: 509px;
+    height: 167px;
+    border-radius: 4px;
+    padding: 36px 20px 20px 20px;
+    margin: -24px;
+
+    .close {
+      margin-top: -20px;
+      margin-right: -10px;
+      top: 0;
+      right: 0;
+    }
+
+    .warning-text {
+      font-family: var(--ubs-quaternary-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ubs-primary-grey);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .main-container {
+      max-width: 509px;
+    }
+
+    .warning-text {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .main-container {
+      min-width: 100vw;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .warning-text {
+      max-width: 288px;
+      margin-bottom: 89px;
+    }
+
+    .close {
+      margin: 0 !important;
+      top: 40px !important;
+      right: 50px !important;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .warning-text {
+      text-align: center;
+    }
+
+    .ubs-secondary-global-button,
+    .ubs-primary-global-button {
+      height: 36px;
+      line-height: 20px;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+  }
+}

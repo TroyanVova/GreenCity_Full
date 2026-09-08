@@ -1,0 +1,243 @@
+@import 'colors';
+@import 'fonts';
+
+.h1 {
+  font-size: 48px;
+  line-height: 54px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.h2 {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.h3 {
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.h4 {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.h5 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.h6 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.h7 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.subtitle-1 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.subtitle-2 {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.button {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.body-1 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.body-2 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.small-1 {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.small-2 {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.small-3 {
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.primary-global-button,
+.secondary-global-button,
+.tertiary-global-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 44px;
+  line-height: 28px;
+  font-size: 18px;
+  padding: 8px 24px;
+  font-family: var(--primary-font);
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 700;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.primary-global-button {
+  color: var(--primary-white);
+  background: var(--primary-green);
+
+  &:hover,
+  &:active {
+    color: var(--primary-white);
+    background: var(--secondary-dark-green);
+  }
+
+  &:disabled {
+    background-color: var(--primary-light-green);
+  }
+}
+
+.secondary-global-button {
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+
+  &:hover,
+  &:active {
+    color: var(--secondary-dark-green);
+    border: 1px solid var(--secondary-dark-green);
+  }
+
+  &:disabled {
+    border: 1px solid var(--primary-light-green);
+  }
+}
+
+.tertiary-global-button {
+  color: var(--primary-green);
+  text-decoration-line: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: var(--secondary-dark-green);
+  }
+}
+
+.nav-global-button {
+  color: var(--primary-green);
+  text-decoration-line: none;
+
+  &:hover,
+  &:active {
+    color: var(--secondary-dark-green);
+  }
+}
+
+.primary-global-button:focus,
+.secondary-global-button:focus,
+.tertiary-global-button:focus {
+  border: 2px solid var(--secondary-dark-green);
+}
+
+.ubs-primary-global-button:disabled,
+.primary-global-button:disabled,
+.secondary-global-button:disabled,
+.tertiary-global-button:disabled {
+  cursor: default;
+}
+
+.secondary-global-button:disabled,
+.tertiary-global-button:disabled,
+.nav-global-button:disabled {
+  color: var(--primary-light-green);
+}
+
+.m-btn {
+  height: 40px;
+  line-height: 24px;
+  font-size: 16px;
+}
+
+.s-btn {
+  height: 36px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.primary-global-input {
+  height: 44px;
+  line-height: 28px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--quintynary-light-grey);
+
+  &:focus {
+    padding: 10px 11px;
+    border: 2px solid var(--primary-green);
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: var(--primary-light-grey);
+  }
+}
+
+.warning-input {
+  border: 1px solid var(--error-red);
+}
+
+.green-city-select {
+  .mat-option.mat-active {
+    background-color: var(--ubs-primary-liberty-green);
+  }
+
+  .mat-option .mat-pseudo-checkbox-checked {
+    background-color: var(--primary-green);
+  }
+}

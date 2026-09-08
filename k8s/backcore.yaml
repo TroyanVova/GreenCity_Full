@@ -1,0 +1,65 @@
+# backcore (Spring Boot, port 8080).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backcore
+  namespace: greencity
+  labels:
+    app: backcore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backcore
+  template:
+    metadata:
+      labels:
+        app: backcore
+    spec:
+      containers:
+        - name: backcore
+          image: REPLACE_WITH_ECR_URL/greencity-backcore:initial
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: greencity-secrets
+          env:
+            - name: SPRING_REDIS_HOST
+              value: "redis.greencity.svc.cluster.local"
+            - name: SPRING_REDIS_PORT
+              value: "6379"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backcore
+  namespace: greencity
+spec:
+  type: NodePort
+  selector:
+    app: backcore
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30880

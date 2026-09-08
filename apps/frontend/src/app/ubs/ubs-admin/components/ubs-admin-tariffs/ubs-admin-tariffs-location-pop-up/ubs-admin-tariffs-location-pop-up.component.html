@@ -1,0 +1,196 @@
+<div class="w-100">
+  <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
+  <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit-title' | translate }}</p>
+</div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
+<ng-template #form>
+  <form [formGroup]="locationForm">
+    <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.region_edit_text' | translate }}</p>
+    <div class="d-flex first-row">
+      <div>
+        <div class="form-group">
+          <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+          <input
+            *ngIf="!data.edit"
+            ngx-google-places-autocomplete
+            type="text"
+            [ngClass]="{ 'error-input': regionExist }"
+            class="shadow-none form-control"
+            required
+            [options]="regionOptions"
+            formControlName="region"
+            [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region' | translate"
+            (onAddressChange)="onRegionSelected($event)"
+          />
+          <div *ngIf="data.edit">
+            <input
+              type="text"
+              class="shadow-none form-control"
+              required
+              matInput
+              formControlName="region"
+              [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_region' | translate"
+              [matAutocomplete]="autoRegion"
+              #autocompleteTriggerRegion="matAutocompleteTrigger"
+            />
+            <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectedEditRegion($event)">
+              <ng-container>
+                <mat-option *ngFor="let option of filteredRegions" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
+          </div>
+          <img
+            *ngIf="region.value.length && !data.edit"
+            [src]="icons.cross"
+            class="cross-img"
+            alt="close-icon"
+            (click)="region.setValue(''); regionSelected = false"
+          />
+        </div>
+        <div class="w-100" *ngIf="regionExist && !data.edit">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="englishRegion"
+          [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region_translate' | translate"
+          [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+        />
+        <img
+          *ngIf="englishRegion.value.length && !data.edit"
+          [src]="icons.cross"
+          class="cross-img"
+          alt="close-icon"
+          (click)="englishRegion.setValue('')"
+        />
+      </div>
+    </div>
+    <mat-expansion-panel *ngIf="cities.length && !data.edit">
+      <mat-expansion-panel-header [collapsedHeight]="'20px'" [expandedHeight]="'20px'">
+        <mat-panel-title>
+          {{ 'ubs-tariffs-add-location-pop-up.activeCities' | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div *ngFor="let item of activeCities" class="itemList">
+        {{ item }}
+      </div>
+    </mat-expansion-panel>
+    <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.city_edit_text' | translate }}</p>
+    <div class="d-flex">
+      <div>
+        <div class="form-group">
+          <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+          <input
+            *ngIf="!data.edit"
+            #locationInput
+            class="shadow-none form-control mb-1"
+            [ngClass]="{ 'error-input': cityExist || cityInvalid }"
+            formControlName="location"
+            [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
+            [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+            (keyup.enter)="addCity()"
+          />
+          <div *ngIf="data.edit">
+            <input
+              class="shadow-none form-control mb-1"
+              formControlName="location"
+              #locationInput
+              [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
+              (keyup)="setPredictCities()"
+              matInput
+              (keyup.enter)="addEditedCity()"
+              [matAutocomplete]="autoCity"
+            />
+            <mat-autocomplete #autoCity="matAutocomplete">
+              <mat-option
+                class="autocomplete-dropdown"
+                *ngFor="let cityName of cityPredictionList"
+                [value]="cityName.description"
+                (click)="onCitySelected(cityName)"
+              >
+                {{ cityName.description }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+          <img
+            *ngIf="location.value.length"
+            [src]="icons.cross"
+            class="cross-img"
+            alt="close-icon"
+            (click)="location.setValue(''); citySelected = false"
+          />
+        </div>
+        <div class="w-100" *ngIf="cityInvalid && !data.edit">
+          <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_error_message' | translate }}</p>
+        </div>
+        <div class="w-100" *ngIf="cityExist && !data.edit">
+          <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
+        </div>
+        <div class="w-100" *ngIf="editedCityExist && data.edit">
+          <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
+        <input
+          class="shadow-none form-control mb-1"
+          formControlName="englishLocation"
+          [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location_translate' | translate"
+          [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+        />
+        <img
+          *ngIf="englishLocation.value.length && !data.edit"
+          [src]="icons.cross"
+          class="cross-img"
+          alt="close-icon"
+          (click)="englishLocation.setValue('')"
+        />
+      </div>
+    </div>
+    <div *ngIf="!data.edit" class="d-flex">
+      <div class="add-city" (click)="addCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
+    </div>
+    <div *ngIf="data.edit" class="d-flex">
+      <div class="add-city" (click)="addEditedCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
+    </div>
+    <div class="mb-2">
+      <div *ngFor="let item of selectedCities; let index = index">
+        <div class="d-flex">
+          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
+          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <div *ngFor="let item of editedCities; let index = index">
+        <div class="d-flex">
+          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteEditedCity(index)" />
+          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-end buttons" mat-dialog-actions>
+    <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onCancel()">
+      {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+    </button>
+    <button
+      class="primary-global-button btn m-0"
+      [disabled]="(data.edit ? editedCities.length : selectedCities.length) === 0 || (locationForm.invalid && !data.edit)"
+      (click)="addLocation()"
+    >
+      {{ (data.edit ? 'ubs-tariffs-add-location-pop-up.save_button' : 'ubs-tariffs-add-location-pop-up.add_button') | translate }}
+    </button>
+  </div>
+</ng-template>

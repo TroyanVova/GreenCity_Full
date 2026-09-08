@@ -1,0 +1,117 @@
+<app-header></app-header>
+<app-search-popup></app-search-popup>
+<div class="container" [class.spin-padding]="!orderInfo">
+  <div *ngIf="orderInfo; else spinner" class="order-edit-wrapper">
+    <form [formGroup]="orderForm">
+      <div class="box">
+        <div class="row">
+          <button class="back-button-top" (click)="goBack()">
+            <img class="arrow-left" [src]="arrowIcon" alt="arrow left" />
+            {{ 'order-edit.btn.back' | translate }}
+          </button>
+        </div>
+        <app-ubs-admin-order-status
+          [currentOrderPrice]="currentOrderPrice"
+          [generalOrderInfo]="getFormGroup('generalOrderInfo')"
+          [generalInfo]="generalInfo"
+          [totalPaid]="totalPaid"
+          [unPaidAmount]="unPaidAmount"
+          [currentLanguage]="currentLanguage"
+          [additionalPayment]="additionalPayment"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+          (changedOrderStatus)="onChangedOrderStatus($event)"
+          (cancelReason)="onCancelReason($event)"
+          (notTakenOutReason)="onNotTakenOutReason($event)"
+        >
+        </app-ubs-admin-order-status>
+        <app-ubs-admin-order-client-info
+          [userInfoDto]="getFormGroup('userInfoDto')"
+          [userInfo]="userInfo"
+          [orderId]="orderId"
+          [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+        >
+        </app-ubs-admin-order-client-info>
+        <app-ubs-admin-address-details
+          [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
+          [addressComment]="orderInfo.addressComment"
+          [generalInfo]="generalInfo"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+        >
+        </app-ubs-admin-address-details>
+        <app-ubs-admin-order-details-form
+          [orderDetailsForm]="getFormGroup('orderDetailsForm')"
+          [orderDetailsOriginal]="orderDetails"
+          [orderStatusInfo]="orderStatusInfo"
+          [orderInfo]="orderInfo"
+          [totalPaid]="totalPaid"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+          (deleteNumberOrderFromEcoShopChanged)="deleteNumberOrderFromEcoShopChange($event)"
+          (changeOverpayment)="changeOverpayment($event)"
+          (checkMinOrder)="setMinOrder($event)"
+          (changeCurrentPrice)="onChangeCurrentPrice($event)"
+          (changeUbsCourierPrice)="onChangeCourierPrice($event)"
+          (changeWriteoffAtStationSum)="onChangeWriteOffStation($event)"
+          (orderStatusChanged)="onCancelOrder()"
+        ></app-ubs-admin-order-details-form>
+        <app-ubs-admin-order-payment
+          [actualPrice]="currentOrderPrice"
+          [totalPaid]="totalPaid"
+          [orderInfo]="orderInfo"
+          [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+          (newPaymentStatus)="onUpdatePaymentStatus($event)"
+          (paymentUpdate)="onPaymentUpdate($event)"
+        ></app-ubs-admin-order-payment>
+        <app-ubs-admin-export-details
+          [exportDetailsDto]="getFormGroup('exportDetailsDto')"
+          [exportInfo]="exportInfo"
+          [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+        >
+        </app-ubs-admin-export-details>
+        <app-ubs-admin-responsible-persons
+          [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
+          [responsiblePersonInfo]="responsiblePersonInfo"
+          [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+        >
+        </app-ubs-admin-responsible-persons>
+        <app-ubs-admin-order-history [orderInfo]="orderInfo" (cancelReason)="onCancelReason($event)"></app-ubs-admin-order-history>
+      </div>
+      <div class="row">
+        <button class="back-button" (click)="goBack()">
+          {{ 'order-edit.btn.back' | translate }}
+        </button>
+        <div class="controls">
+          <button
+            type="reset"
+            class="cancel-button"
+            [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder"
+            (click)="$event.preventDefault(); openCancelModal()"
+          >
+            {{ 'order-edit.btn.cancel' | translate }}
+          </button>
+          <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
+            {{ 'order-edit.btn.save' | translate }}
+            <span class="inform-window" *ngIf="!orderForm.valid">
+              {{ 'information-window.message' | translate }}
+              <ul>
+                <li>{{ 'export-details.export-date' | translate }}</li>
+                <li>{{ 'export-details.export-time' | translate }}</li>
+                <li>{{ 'export-details.station' | translate }}</li>
+                <li>{{ 'responsible-persons.call-manager' | translate }}</li>
+                <li>{{ 'responsible-persons.logistician' | translate }}</li>
+                <li>{{ 'responsible-persons.navigator' | translate }}</li>
+                <li>{{ 'responsible-persons.driver' | translate }}</li>
+              </ul>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ng-template #spinner>
+    <app-spinner class="spinner"></app-spinner>
+  </ng-template>
+</div>

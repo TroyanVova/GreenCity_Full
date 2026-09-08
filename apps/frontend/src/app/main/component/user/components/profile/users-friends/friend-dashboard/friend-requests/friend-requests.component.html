@@ -1,0 +1,30 @@
+<div *ngIf="requests !== null; else spinner" class="container">
+  <div class="requests-box">
+    <div *ngIf="requests.length === 0">
+      <div class="noRequests-wraper">
+        <div class="img-absent">
+          <img [src]="absent" alt="absent-requests" />
+        </div>
+        <div>
+          <p class="noRequests">{{ 'profile.zero-requests' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="requests.length" class="request-list">
+      <div *ngFor="let request of requests" class="user-card">
+        <app-friend-item
+          [friend]="request"
+          primaryBtnName="{{ 'profile.friends.request-accept' | translate }}"
+          secondaryBtnName="{{ 'profile.friends.request-decline' | translate }}"
+          isFriendRequest="true"
+          (friendEventEmit)="accept($event)"
+          (declineEvent)="decline($event)"
+        ></app-friend-item>
+      </div>
+      <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    </div>
+  </div>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,0 +1,105 @@
+.label {
+  margin: 0;
+  font-size: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.hint {
+  font-size: 11px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.form-container {
+  background-color: var(--ubs-grey-white);
+  padding: 20px 20px 24px;
+  max-width: 100%;
+
+  .message-details {
+    background-color: var(--primary-white);
+    color: var(--error-ligh-red);
+    font-size: 14px;
+    font-weight: 100;
+    text-align: center;
+    visibility: hidden;
+    box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+    width: 220px;
+    opacity: 0;
+    border-radius: 6px;
+    position: absolute;
+    transition: opacity 0.3s;
+    right: 0;
+    bottom: 50px;
+
+    ul li {
+      width: fit-content;
+      text-align: justify;
+    }
+  }
+
+  .primary-global-button {
+    position: relative;
+  }
+
+  .primary-global-button[disabled]:hover .message-details {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.btn-wrapper {
+  background-color: var(--ubs-grey-white);
+  padding-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  line-height: 20px;
+  font-size: 14px;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  background-color: var(--primary-white);
+
+  &:focus,
+  &:focus-within {
+    border: 2px solid var(--primary-green);
+    outline: none;
+  }
+
+  &.ng-invalid {
+    border: 2px solid red;
+  }
+}
+
+.btn-close {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  color: var(--ubs-quintynary-light-grey);
+  visibility: hidden;
+
+  &:focus {
+    border: none;
+  }
+}
+
+.form-field:hover,
+.form-field:focus-within {
+  .btn-close {
+    visibility: visible;
+  }
+}

@@ -1,0 +1,332 @@
+@import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
+@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+
+.add-edit {
+  width: 620px;
+  min-height: 620px;
+  padding: 40px 64px;
+}
+
+.popup-title {
+  margin-bottom: 24px;
+}
+
+.close-popup-button {
+  font-size: 18px;
+  position: absolute;
+  top: 19px;
+  right: 19px;
+  cursor: pointer;
+  color: var(--ubs-primary-light-grey);
+}
+
+.edit-employee {
+  position: absolute;
+  top: 80px;
+  right: 70px;
+
+  .mat-icon,
+  .edit-employee-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
+  }
+
+  .edit-employee-btn:disabled,
+  .edit-employee-btn:disabled .mat-icon {
+    color: var(--ubs-primary-light-grey);
+  }
+}
+
+form {
+  margin: 24px 0 0;
+
+  .fields {
+    .private-section {
+      max-width: 502px;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+
+.fields-note h6 {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--quaternary-dark-grey);
+  font-weight: 400;
+}
+
+.odd {
+  margin-right: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  input {
+    border: solid 1px var(--quintynary-light-grey);
+    outline: none;
+    padding: 8px;
+    border-radius: 3px;
+    width: 234px;
+  }
+}
+
+.group-title {
+  font-family: var(--primary-font);
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--quaternary-grey);
+
+  &.position-title,
+  &.station-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--ubs-secondary-grey);
+  }
+
+  &.image-title {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+.checkbox-section-role,
+.checkbox-section-station {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-role-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  max-height: 140px;
+}
+
+.role-item {
+  display: block;
+  width: 50%;
+}
+
+.checkbox-location,
+.checkbox-role {
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 6.5px;
+}
+
+label {
+  all: unset;
+}
+
+.checkbox-role {
+  color: var(--ubs-dark-green);
+  border: solid 1px var(--ubs-dark-green);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-green);
+    background: var(--ubs-grey-light-green);
+  }
+}
+
+.checkbox-location {
+  color: var(--ubs-dark-purple);
+  border: solid 1px var(--ubs-dark-purple);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-blue);
+    background: var(--ubs-grey-light-blue);
+  }
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-close-button {
+  display: none;
+}
+
+.active-location {
+  .checkbox-close-button {
+    display: initial;
+  }
+}
+
+.image-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 132px;
+  height: 108px;
+  transition: filter 0.2s linear;
+  position: relative;
+  background: var(--ubs-primary-white) !important;
+  overflow: hidden;
+
+  &::after {
+    display: block;
+    content: '';
+    background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+}
+
+.error-message {
+  font-size: 14px;
+  color: var(--ubs-error-ligh-red);
+
+  p {
+    margin-left: 15px;
+  }
+}
+
+.current-image {
+  background: var(--ubs-primary-white);
+
+  img {
+    height: 108px;
+    cursor: pointer;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  display: block;
+  color: var(--ubs-secondary-grey);
+  font-size: 12px;
+  text-align: center;
+}
+
+.download-from-device-button {
+  color: var(--ubs-electric-violet);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.avatar-edit-head {
+  @include image-edit;
+}
+
+.image-name {
+  color: var(--ubs-primary-grey);
+}
+
+.user-image {
+  height: 15px !important;
+  cursor: pointer;
+}
+
+.table-tariffs {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  width: 100%;
+
+  thead tr th {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--ubs-primary-grey);
+    padding: 4px 16px;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
+  }
+
+  tbody tr {
+    background: var(--ubs-primary-white);
+    box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+
+    td {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ubs-quaternary-dark-grey);
+      padding: 16px;
+    }
+  }
+}
+
+.action-buttons {
+  width: 118px;
+}
+
+::-moz-scrollbar-thumb {
+  border-radius: 20px;
+}
+
+.filters-block {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+
+  .filter-wrapper {
+    height: 36px;
+    width: 230px;
+    border: 1px solid var(--ubs-primary-light-grey);
+    border-radius: 4px;
+
+    input {
+      padding-left: 15px;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+    }
+  }
+
+  .icon-style {
+    position: absolute;
+    right: 320px;
+    bottom: 448px;
+    color: var(--ubs-primary-light-grey);
+    margin: 8px;
+  }
+}
+
+::-moz-scrollbar-thum {
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-button,
+::-moz-scrollbar-button {
+  display: none !important;
+}

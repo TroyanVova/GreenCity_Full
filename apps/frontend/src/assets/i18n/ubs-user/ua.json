@@ -1,0 +1,36 @@
+{
+  "ubs-user": {
+    "orders": "Замовлення",
+    "invoice": "Бонуси",
+    "user_data": "Дані користувача",
+    "messages": "Повідомлення",
+    "user": "Користувач"
+  },
+  "ubs-user-notification": {
+    "title": "Ваші повідомлення",
+    "title-table": {
+      "number": "№ замовлення",
+      "theme-messages": "Тема повідомлення",
+      "time": "Час"
+    }
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "Про нас",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Екомагазин"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
+    "sign-out": "Вийти",
+    "sign-in": "Увійти",
+    "management": "Менеджмент"
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "Ця адреса вже додана"
+    }
+  }
+}

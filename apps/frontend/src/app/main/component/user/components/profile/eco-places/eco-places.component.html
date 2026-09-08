@@ -1,0 +1,19 @@
+<div class="eco-places-content">
+  <div class="header-position">
+    <div class="header">
+      <p class="title">{{ 'profile.my-eco-places' | translate }}</p>
+      <a *ngIf="ecoPlaces?.length > 3" class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
+    </div>
+    <div class="favourites-quantity">
+      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | correctUnit: ecoPlaces?.length:currentLang | translate }}</span>
+    </div>
+  </div>
+  <div>
+    <ul class="eco-place-list">
+      <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
+    </ul>
+  </div>
+</div>
+<ng-template #loading>
+  <mat-spinner color="grey" diameter="70" class="loading"></mat-spinner>
+</ng-template>

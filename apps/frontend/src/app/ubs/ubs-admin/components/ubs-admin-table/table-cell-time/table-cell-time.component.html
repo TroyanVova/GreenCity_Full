@@ -1,0 +1,13 @@
+<div class="time_to_show" *ngIf="!doneOrCanceled">
+  <span>{{ from }} - {{ to }}</span>
+  <span *ngIf="!isEditable && !isBlocked" class="pointer" (click)="edit()">&#9998;</span>
+  <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+</div>
+<app-time-picker
+  *ngIf="isEditable"
+  (timeOfExport)="setExportTime($event)"
+  [setTimeFrom]="fromInput"
+  [exportDate]="exportDate"
+  [setTimeTo]="toInput"
+>
+</app-time-picker>

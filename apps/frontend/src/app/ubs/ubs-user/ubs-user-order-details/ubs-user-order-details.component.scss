@@ -1,0 +1,266 @@
+.full_card {
+  display: grid;
+  grid-template-rows: 28px auto;
+  grid-template-columns: 850px auto;
+  margin-left: 30px;
+  color: var(--ubs-primary-black);
+
+  .header_details {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+    letter-spacing: 0.002em;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    grid-column-start: 1;
+    grid-column-end: -1;
+  }
+}
+
+.table_of_details {
+  width: 780px;
+  margin-top: 15px;
+  font-family: var(--primary-font);
+  grid-column: 1;
+  grid-row: 2;
+
+  .header_table {
+    height: 34px;
+    margin: 5px 0 2px 0;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+    th {
+      text-align: left;
+    }
+
+    th:nth-child(4) {
+      text-align: center;
+    }
+
+    th:nth-child(5) {
+      text-align: right;
+    }
+  }
+
+  td {
+    padding-top: 28px;
+  }
+}
+
+.data_table {
+  color: var(--ubs-primary-black);
+
+  td {
+    text-align: left;
+  }
+}
+
+.sum_of_order {
+  border-top: 1px solid var(--ubs-primary-light-grey);
+
+  td {
+    padding-top: 16px;
+    text-align: right;
+  }
+}
+
+.sum_to_pay {
+  td {
+    padding-top: 8px;
+    padding-bottom: 16px;
+    text-align: right;
+  }
+}
+
+.optional_row {
+  td {
+    padding-top: 8px;
+    text-align: right;
+  }
+}
+
+.data_table td:nth-child(4) {
+  padding-left: 45px;
+}
+
+.data_table td:nth-child(5) {
+  text-align: right;
+  color: var(--ubs-primary-black);
+  font-weight: bold;
+}
+
+.sum_of_order td:nth-child(2) {
+  color: var(--ubs-primary-black);
+  font-weight: bold;
+}
+
+.sum_to_pay td:nth-child(2) {
+  color: var(--ubs-primary-black);
+  font-weight: bold;
+}
+
+.additional_orders_bold_text {
+  span {
+    font-weight: 500;
+  }
+}
+
+.optional_row td:nth-child(2) {
+  color: var(--ubs-primary-light-green);
+  line-height: 12px;
+}
+
+.order_details {
+  width: 200px;
+  padding: 0;
+  margin-left: 16px;
+  color: var(--ubs-primary-black);
+  font-family: var(--primary-font);
+  grid-column: 2;
+  grid-row: 2;
+  border-left: 1px solid var(--ubs-primary-light-grey);
+
+  .recipient {
+    margin: 22px 0;
+    padding: 0 0 0 15px;
+  }
+
+  .bold_text {
+    font-weight: bold;
+  }
+
+  ol {
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+}
+
+.download {
+  display: flex;
+  justify-content: flex-end;
+
+  .download-link {
+    display: grid;
+    grid-template-areas: 'arrow text' 'maximize text';
+    grid-template-columns: 16px max-content;
+    grid-template-rows: 17px auto;
+    margin: 30px 18px 33px 0;
+    color: var(--primary-green);
+  }
+}
+
+.arrow {
+  grid-area: arrow;
+}
+
+.maximize {
+  grid-area: maximize;
+  width: 16px;
+  height: 1px;
+  transform: rotate(-180deg);
+}
+
+.text {
+  grid-area: text;
+  margin: 0 22px;
+}
+
+@media (max-width: 1420px) {
+  .full_card {
+    margin-left: 0;
+    grid-template-columns: 716px auto;
+  }
+
+  .table_of_details {
+    width: 700px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .full_card {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: var(--ubs-primary-black);
+
+    .header_details {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      letter-spacing: 0.002em;
+      color: var(--ubs-primary-black);
+      font-family: var(--primary-font);
+    }
+  }
+
+  .table_of_details {
+    width: 100%;
+  }
+
+  .order_details {
+    border-left: none;
+    margin-left: 0;
+
+    .recipient {
+      padding: 0;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .download {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .table_of_details {
+    td {
+      font-size: 11px;
+      padding-top: 14px;
+    }
+
+    .header_table {
+      th {
+        font-size: 11px;
+      }
+    }
+  }
+
+  .order_details {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+  }
+
+  .bold_text,
+  .recipient {
+    font-size: 0.8rem;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 460px) {
+  .order_details {
+    margin: 0;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+
+    .recipient {
+      margin: 32px 0;
+    }
+
+    .bold_text {
+      font-weight: bold;
+    }
+
+    ol {
+      margin-bottom: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+  }
+}

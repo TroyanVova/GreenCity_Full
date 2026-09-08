@@ -1,0 +1,77 @@
+$additional-color: #e1e5e3;
+
+p {
+  margin: 0;
+}
+
+.outer {
+  width: 213px;
+  height: 140px;
+  margin: 0 auto;
+  background: var(--primary-white);
+  display: flex;
+  justify-content: center;
+  font-family: var(--primary-font);
+
+  .achievements {
+    width: 213px;
+    border-top: 1px solid $additional-color;
+
+    .header {
+      height: 55px;
+      padding: 24px 0;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p:first-child {
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 24px;
+          color: var(--primary-dark-grey);
+        }
+
+        a:nth-child(2) {
+          font-weight: 400;
+          font-size: 12px;
+          color: var(--tertiary-light-grey);
+          line-height: 16px;
+        }
+      }
+    }
+
+    .acheived-quantity {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+      color: var(--tertiary-light-grey);
+    }
+
+    .body {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        height: 56px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .outer {
+    height: 132px;
+
+    .achievements {
+      width: 184px;
+
+      .body img {
+        height: 48px;
+      }
+    }
+  }
+}

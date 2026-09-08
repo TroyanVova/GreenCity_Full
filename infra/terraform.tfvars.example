@@ -1,0 +1,7 @@
+aws_region   = "us-east-1"
+project_name = "greencity"
+environment  = "demo"
+
+ssh_allowed_cidr = "YOUR_PUBLIC_IP_HERE/32"
+
+db_password = "STRONG_PASSWORD"

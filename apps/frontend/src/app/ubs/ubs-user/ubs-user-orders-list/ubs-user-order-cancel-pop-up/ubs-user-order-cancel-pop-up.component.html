@@ -1,0 +1,17 @@
+<div class="dialog-container">
+  <div class="dialog-container-text">
+    <p class="warning-text">{{ 'ubs-client-profile.cancel-modal.warning' | translate }}</p>
+    <p class="question-text">{{ 'ubs-client-profile.cancel-modal.question' | translate }}</p>
+  </div>
+
+  <div class="action-btns">
+    <mat-dialog-actions>
+      <button class="ubs-secondary-global-button s-btn" mat-dialog-close>
+        {{ 'ubs-client-profile.cancel-modal.disagree' | translate }}
+      </button>
+      <button class="ubs-primary-global-button s-btn" (click)="deleteCard()" mat-dialog-close>
+        {{ 'ubs-client-profile.cancel-modal.agree' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

@@ -1,0 +1,377 @@
+.wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0;
+
+  .back-to-my-habits {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 28px 0 40px 0;
+    padding: 4px 0 0 4px;
+    color: var(--secondary-dark-green);
+    cursor: pointer;
+
+    .arrow {
+      width: 5px;
+      height: 7px;
+      margin-right: 6px;
+      align-self: center;
+      background: url('~/assets/img/profile/icons/back-arrow.svg') no-repeat;
+    }
+
+    .text {
+      font-size: 16px;
+      line-height: 22px;
+      display: flex;
+      align-self: center;
+      text-decoration-line: underline;
+    }
+  }
+
+  .habit-container {
+    min-height: 360px;
+    width: 100%;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .habit-info {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+
+      .header {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        color: var(--primary-green);
+        margin-bottom: 8px;
+
+        .item {
+          display: flex;
+          align-items: center;
+          font-style: normal;
+          gap: 8px;
+          font-size: 14px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+
+        .acquired-by {
+          white-space: nowrap;
+        }
+
+        .stars {
+          display: flex;
+          width: 60px;
+          padding-bottom: 5px;
+          justify-content: space-between;
+          cursor: pointer;
+
+          img {
+            width: 16px;
+          }
+        }
+
+        .line {
+          width: 1px;
+          height: 18px;
+          margin: 0 18px;
+          background-image: url('~/assets/img/profile/icons/line.svg');
+        }
+      }
+
+      .habit-title {
+        margin-bottom: 16px;
+        font-family: var(--secondary-font);
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 48px;
+        letter-spacing: 0;
+        text-align: left;
+      }
+
+      .description p {
+        font-family: var(--primary-font);
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--primary-black);
+      }
+    }
+
+    .habit-img {
+      width: 395px;
+      height: 320px;
+      margin-left: 25px;
+
+      .img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .habit-info-divider {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: var(--secondary-dark-grey);
+
+    h3 {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      margin: 0;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 35px;
+    }
+
+    .lock-icon {
+      height: 24px;
+      width: 23px;
+      background: url('~/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    margin: 18px 0 40px 0;
+    background-color: var(--secondary-light-grey);
+  }
+
+  .container-bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .habit-info-block {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      .habit-progress,
+      .habit-second-block {
+        width: calc(50% - 16px);
+      }
+
+      .habit-progress {
+        padding: 36px;
+        background-color: var(--secondary-light-grey);
+        border-radius: 8px;
+        align-self: flex-start;
+      }
+
+      .habit-second-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .invite-friends {
+          display: flex;
+          width: 100%;
+          height: 172px;
+          padding: 24px;
+          background: var(--secondary-light-grey);
+          border-radius: 8px;
+
+          .invite-friends-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+          }
+        }
+
+        .duration-shoping {
+          display: flex;
+          height: 268px;
+          width: 100%;
+          justify-content: space-between;
+          gap: 32px;
+
+          .duration,
+          .shopping {
+            width: 50%;
+            background: var(--secondary-light-grey);
+            border-radius: 8px;
+            padding: 24px;
+            font-family: var(--secondary-font);
+          }
+        }
+      }
+    }
+  }
+
+  .add-habit-container {
+    margin: 32px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 32px;
+
+    .habit-btn {
+      height: 48px;
+      width: 180px;
+    }
+  }
+}
+
+@media (max-width: 1439px) {
+  .wrapper {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .wrapper {
+    max-width: 720px;
+
+    .habit-container {
+      flex-direction: column;
+
+      .habit-info {
+        width: 100%;
+
+        .header {
+          justify-content: center;
+        }
+
+        .habit-title {
+          text-align: center;
+          font-size: 32px;
+        }
+      }
+
+      .habit-img {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+
+        .img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .container-bottom .habit-info-block {
+      flex-direction: column;
+      gap: 32px;
+
+      .habit-progress,
+      .habit-second-block {
+        width: 100%;
+      }
+
+      .habit-second-block {
+        gap: 32px;
+      }
+    }
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    max-width: calc(100% - 36px);
+  }
+}
+
+@media (max-width: 575px) {
+  .wrapper {
+    max-width: calc(100% - 32px);
+
+    .back-to-my-habits {
+      margin: 24px 0;
+    }
+
+    .habit-container {
+      align-items: center;
+
+      .habit-info {
+        .header {
+          justify-content: space-between;
+          width: 100%;
+
+          .item {
+            gap: 4px;
+            font-size: 10px;
+            letter-spacing: 1px;
+
+            .stars {
+              width: 40px;
+
+              img {
+                width: 12px;
+              }
+            }
+          }
+
+          .line {
+            margin: 0 4px;
+          }
+        }
+
+        .habit-title {
+          font-size: 20px;
+          line-height: 24px;
+          margin: 8px 0 24px;
+        }
+
+        .description p {
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .habit-info-divider h3 {
+      font-size: 20px;
+    }
+
+    .container-bottom .habit-info-block {
+      gap: 24px;
+
+      .habit-progress {
+        padding: 24px 16px;
+      }
+
+      .habit-second-block {
+        padding: 0;
+        gap: 24px;
+
+        .duration-shoping {
+          flex-direction: column;
+          height: auto;
+          gap: 24px;
+
+          .duration,
+          .shopping {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .add-habit-container {
+      flex-direction: column;
+      gap: 24px;
+
+      .habit-btn {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Variable files that
+*.tfvars
+*.tfvars.json
+!terraform.tfvars.example
+
+# CLI config files
+.terraformrc
+terraform.rc
+
+# Ignore override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore transient lock info files
+.terraform.lock.hcl.bak
+
+keys/
+*.pem
+
+# Локальний kubeconfig, стягнутий з сервера (scp /etc/rancher/k3s/k3s.yaml) --
+# повний admin-доступ до кластера, ніколи не комітити
+k3s-greencity.yaml
+*.kubeconfig
+kubeconfig*
