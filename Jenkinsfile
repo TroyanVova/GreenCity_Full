@@ -77,7 +77,9 @@ pipeline {
             steps {
                 withCredentials([
                     string(credentialsId: 'gc-cloud-db-password', variable: 'DB_PASSWORD'),
-                    string(credentialsId: 'gc-cloud-redis-password', variable: 'REDIS_PASSWORD')
+                    string(credentialsId: 'gc-cloud-redis-password', variable: 'REDIS_PASSWORD'),
+                    string(credentialsId: 'gc-cloud-email-address', variable: 'EMAIL_ADDRESS'),
+                    string(credentialsId: 'gc-cloud-email-password', variable: 'EMAIL_PASSWORD')
                 ]) {
                     sh """
                         set -eux

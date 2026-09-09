@@ -50,9 +50,11 @@ spec:
             - name: AZURE_CONTAINER_NAME
               value: "unused"
             - name: EMAIL_ADDRESS
-              value: "unused@example.com"
+              valueFrom:
+                secretKeyRef: { name: greencity-secrets, key: EMAIL_ADDRESS }
             - name: EMAIL_PASSWORD
-              value: "unused"
+              valueFrom:
+                secretKeyRef: { name: greencity-secrets, key: EMAIL_PASSWORD }
             - name: GOOGLE_CLIENT_ID
               value: "unused"
             - name: GOOGLE_CLIENT_ID_MANAGER
@@ -60,9 +62,13 @@ spec:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: "/user"
             - name: ADDRESS
-              value: "http://core:8080/core"
+              value: "http://greencity-alb-1035474643.us-east-1.elb.amazonaws.com/user"
             - name: GREENCITY_SERVER_ADDRESS
               value: "http://core:8080/core"
+            - name: CLIENT_ADDRESS
+              value: "http://greencity-alb-1035474643.us-east-1.elb.amazonaws.com"
+            - name: ECONEWS_ADDRESS
+              value: "http://greencity-alb-1035474643.us-east-1.elb.amazonaws.com/#/welcome"
           resources:
             requests:
               cpu: 250m

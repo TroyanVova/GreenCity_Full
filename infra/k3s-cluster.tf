@@ -58,6 +58,7 @@ locals {
   server_user_data = <<-EOF
     #!/bin/bash
     set -eux
+
     curl -sfL https://get.k3s.io | sh -
 
     for i in $(seq 1 30); do
