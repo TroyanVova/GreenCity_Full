@@ -89,6 +89,8 @@ pipeline {
                             --from-literal=SPRING_DATASOURCE_PASSWORD="\$DB_PASSWORD" \
                             --from-literal=REDIS_PASSWORD="\$REDIS_PASSWORD" \
                             --from-literal=CORS_ALLOWED_ORIGINS="http://${params.ALB_DNS}" \
+                            --from-literal=EMAIL_ADDRESS="\$EMAIL_ADDRESS" \
+                            --from-literal=EMAIL_PASSWORD="\$EMAIL_PASSWORD" \
                             --dry-run=client -o yaml | kubectl --kubeconfig=${KUBECONFIG} apply -f -
                     """
                 }
