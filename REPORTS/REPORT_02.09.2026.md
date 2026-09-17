@@ -7,6 +7,8 @@ Author: Volodymyr
 Project: GreenCity 
 Goal: Continue building the Jenkins CI/CD and monitoring stack with new production-ready parts: an independent Docker registry, Discord alerts, and automatic code-quality checks with SonarCloud. Also start the migration to AWS: plan the cloud architecture and build the first AWS resources.
 
+Summary: This report covers two things: finishing production-ready parts of the Jenkins/monitoring stack (a separate registry VM, Discord alerts, SonarCloud code checks), and starting the move to AWS. By the end of the period, the AWS account had its first real resources: a VPC, subnets, Security Groups, ECR repositories, and an IAM role.
+
 Goals
 Main goal: Move the Docker registry from `jenkins-agent` to its own dedicated VM, connect Grafana Alerting to Discord for service/host/application health, add SonarCloud static analysis to the Jenkins pipeline for both backend modules, and start the AWS migration by planning the architecture and setting up the first AWS resources.
 Other goals:

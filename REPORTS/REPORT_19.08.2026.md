@@ -7,6 +7,7 @@ Author: Volodymyr
 Project: GreenCity (MVP)
 Goal: Add Load Balancing (Nginx) and Redis caching on top of the already-deployed GreenCity stack (`db`, `core`, `user`, `frontend`) running via Docker Compose, and build a CI/CD pipeline on Jenkins (Proxmox) - on-demand provisioning of a full environment (VM + entire stack) with a single command.
 
+Summary: This report covers two big additions to the existing Docker Compose stack: an Nginx load balancer with an application-level Redis cache, and a first Jenkins CI/CD pipeline. By the end of the period, Jenkins could create a new Proxmox VM and deploy the full GreenCity stack to it automatically, with a single command.
 
 Goals
 Main goal: Introduce Nginx as the single entry point for the backends (`core`/`user`) instead of direct port exposure, and replace the local in-memory cache (Caffeine) with a shared Redis cache at the application level (cache-aside: check Redis first, fall back to Postgres on a miss).

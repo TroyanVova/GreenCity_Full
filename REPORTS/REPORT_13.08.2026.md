@@ -8,6 +8,8 @@ Project: GreenCity (MVP)
 
 Goal: Deploy three parts of the GreenCity project (backcore, backuser, frontend) on an Ubuntu VM running on Proxmox, using Docker and Docker Compose.
 
+Summary: This is the first deployment of the GreenCity project. All three parts of the app (backcore, backuser, frontend) plus PostgreSQL now run together as containers on one Proxmox VM. The whole stack starts with a single command, and the steps are written down so the team can repeat them.
+
 Objectives
 
 Main goal: Set up the full GreenCity environment (2 backend services on Spring Boot + Angular frontend + PostgreSQL) in containers on one VM, without installing JDK/Node/Postgres manually on the host.
@@ -44,7 +46,7 @@ Created a VM on Proxmox (Ubuntu Server 22.04 LTS), installed Docker Engine and D
 
 Wrote three Dockerfiles (backcore, backuser, frontend) using multi-stage builds, and one docker-compose.yml file that starts 4 containers: db (PostgreSQL 15), core (backcore, port 8080), user (backuser, port 8060), frontend (Nginx, port 4200).
 
-Set up a healthcheck for PostgreSQL and used `depends_on: condition: service_healthy`, so the backend services do not try to connect to the database before it is ready.
+Set up a healthcheck for PostgreSQL and used `depends_on: condition: service_healthy`, so the backend services do not try to connect to the database before it is ready.
 
 Filled in the .env file with real values for DATASOURCE_URL/USER/PASSWORD. The fields for SMTP/Google OAuth/Azure Storage are still CHANGE_ME until they are agreed with the people responsible for these integrations.
 
@@ -52,9 +54,9 @@ Results achieved:
 
 The whole GreenCity stack can start from zero with one command (`docker compose up -d`) in about 5-10 minutes on a clean VM.
 
-`docker compose ps` shows all 4 containers as `running` / `healthy`.
+`docker compose ps` shows all 4 containers as `running` / `healthy`.
 
-The frontend at [http://192.168.0.110:4200/](http://192.168.0.110:4200/) loads successfully and connects to backcore/backuser inside the Docker network using the service names `core`/`user`.
+The frontend at [http://192.168.0.110:4200/](http://192.168.0.110:4200/) loads successfully and connects to backcore/backuser inside the Docker network using the service names `core`/`user`.
 
 Created a document called READMY.md with full step-by-step instructions so other team members can repeat the deployment.
 
@@ -86,9 +88,9 @@ Docker / Docker Compose: used to containerize all 4 services (db, core, user, fr
 
 Proxmox VE: virtualization - a separate Ubuntu VM for this deployment.
 
-PostgreSQL 15: shared `greencity` database for both backend services (each with its own Liquibase changelog).
+PostgreSQL 15: shared `greencity` database for both backend services (each with its own Liquibase changelog).
 
-Spring Boot (Java 21, Maven): used for backcore and backuser, with a `docker` profile for configuration through environment variables.
+Spring Boot (Java 21, Maven): used for backcore and backuser, with a `docker` profile for configuration through environment variables.
 
 Angular 9 + Nginx: used to build and serve the frontend static files.
 
@@ -96,16 +98,16 @@ ufw: basic firewall on the VM (only ports 22/4200/8080/8060 are open).
 
 Comments and Conclusions
 
-Deploying with Docker Compose made setting up the MVP much easier compared to using systemd services on separate VMs. Instead of 4 separate machines and installing JDK/Node/Postgres manually on each one, we now use one VM and one `docker compose up` command. The most important thing for the team to remember is that the service names in the compose file (`core`, `user`) are fixed inside `application-docker.properties`, and they cannot be changed without changing the code too. Before using this in production, it is recommended to store real secrets (SMTP/Google/Azure) using Docker secrets or a vault, instead of keeping them in a plain .env file on the VM's disk.
+Deploying with Docker Compose made setting up the MVP much easier compared to using systemd services on separate VMs. Instead of 4 separate machines and installing JDK/Node/Postgres manually on each one, we now use one VM and one `docker compose up` command. The most important thing for the team to remember is that the service names in the compose file (`core`, `user`) are fixed inside `application-docker.properties`, and they cannot be changed without changing the code too. Before using this in production, it is recommended to store real secrets (SMTP/Google/Azure) using Docker secrets or a vault, instead of keeping them in a plain .env file on the VM's disk.
 
 Attachments and Resources
 
 Deployment guide: READMY.md (in the root of the repository).
 
-Log of the first build: `docker compose logs -f` (saved locally on the VM).
+Log of the first build: `docker compose logs -f` (saved locally on the VM).
 
-Docker Compose documentation: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
+Docker Compose documentation: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
 
-Docker Engine documentation (official repository for Ubuntu): [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
+Docker Engine documentation (official repository for Ubuntu): [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
-Github: [https://github.com/TroyanVova/GreenCity_Full.git](https://github.com/TroyanVova/GreenCity_Full.git)
+Github: [https://github.com/TroyanVova/GreenCity_Full.git](https://github.com/TroyanVova/GreenCity_Full.git)
